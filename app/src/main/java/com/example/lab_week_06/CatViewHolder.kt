@@ -1,43 +1,46 @@
 package com.example.lab_week_06
 
-
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lab_week_06.model.CatBreed
 import com.example.lab_week_06.model.CatModel
-import com.example.lab_week_06.model.Gender
 
-private const val FEMALE_SYMBOL = "\u2640"
-private const val MALE_SYMBOL = "\u2642"
-private const val UNKNOWN_SYMBOL = "?"
+class CatAdapter(
+    private val layoutInflater: LayoutInflater,
+    private val imageLoader: ImageLoader,
+    private val onClickListener: OnClickListener
+) : RecyclerView.Adapter<CatViewHolder>() {
 
-class CatViewHolder(
-    private val containerView: View,
-    private val imageLoader: ImageLoader
-) : RecyclerView.ViewHolder(containerView) {
+    // Mutable list for storing all the list data
+    private val cats = mutableListOf<CatModel>()
 
-    private val catBiographyView: TextView by lazy { containerView.findViewById(R.id.cat_biography) }
-    private val catBreedView: TextView by lazy { containerView.findViewById(R.id.cat_breed) }
-    private val catGenderView: TextView by lazy { containerView.findViewById(R.id.cat_gender) }
-    private val catNameView: TextView by lazy { containerView.findViewById(R.id.cat_name) }
-    private val catPhotoView: ImageView by lazy { containerView.findViewById(R.id.cat_photo) }
+    // A function to set the mutable list
+    fun setData(newCats: List<CatModel>) {
+        cats.clear()
+        cats.addAll(newCats)
+        // This is used to tell the adapter that there's a data change in the mutable list
+        notifyDataSetChanged()
+    }
 
-    fun bindData(cat: CatModel) {
-        imageLoader.loadImage(cat.imageUrl, catPhotoView)
-        catNameView.text = cat.name
-        catBreedView.text = when (cat.breed) {
-            CatBreed.AmericanCurl -> "American Curl"
-            CatBreed.BalineseJavanese -> "Balinese-Javanese"
-            CatBreed.ExoticShorthair -> "Exotic Shorthair"
-            else -> "Unknown"
-        }
-        catBiographyView.text = cat.biography
-        catGenderView.text = when (cat.gender) {
-            Gender.Female -> FEMALE_SYMBOL
-            Gender.Male -> MALE_SYMBOL
-            Gender.Unknown -> UNKNOWN_SYMBOL
-        }
+    // A view holder is used to bind the data to the layout views
+    // onCreateViewHolder is instantiating the view holder itself
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
+        val view = layoutInflater.inflate(R.layout.item_list, parent, false)
+        return CatViewHolder(view, imageLoader, onClickListener)
+    }
+
+    // This is used to get the amount of data/item in the list
+    override fun getItemCount() = cats.size
+
+    // This is used to bind each data to each layout views
+    override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
+        // The holder parameter stores our previously created ViewHolder
+        // The holder.bindData function is declared in the CatViewHolder
+        holder.bindData(cats[position])
+    }
+
+    // Declare an onClickListener interface
+    interface OnClickListener {
+        fun onItemClick(cat: CatModel)
     }
 }
