@@ -3,6 +3,7 @@ package com.example.lab_week_06
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab_week_06.model.CatBreed
@@ -40,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             false
         )
 
+        // Instantiate ItemTouchHelper for the swipe to delete callback and
+        // attach it to the recycler view
+        val itemTouchHelper = ItemTouchHelper(catAdapter.swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
         // Add data to the model list in the adapter
         catAdapter.setData(
             listOf(
@@ -63,6 +69,55 @@ class MainActivity : AppCompatActivity() {
                     "Curious George",
                     "Award winning investigator",
                     "https://cdn2.thecatapi.com/images/bar.jpg"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.BalineseJavanese,
+                    "Luna",
+                    "Playful and energetic",
+                    "https://cdn2.thecatapi.com/images/MTk5OTAyOQ.jpg"
+                ),
+                CatModel(
+                    Gender.Male,
+                    CatBreed.ExoticShorthair,
+                    "Simba",
+                    "King of the house",
+                    "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.AmericanCurl,
+                    "Bella",
+                    "Sweet and gentle",
+                    "https://cdn2.thecatapi.com/images/bjl.jpg"
+                ),
+                CatModel(
+                    Gender.Male,
+                    CatBreed.BalineseJavanese,
+                    "Max",
+                    "Adventurous explorer",
+                    "https://cdn2.thecatapi.com/images/d3d.jpg"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.ExoticShorthair,
+                    "Chloe",
+                    "Elegant and sophisticated",
+                    "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg"
+                ),
+                CatModel(
+                    Gender.Male,
+                    CatBreed.AmericanCurl,
+                    "Oliver",
+                    "Friendly neighborhood cat",
+                    "https://cdn2.thecatapi.com/images/a2n.jpg"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.BalineseJavanese,
+                    "Nala",
+                    "Graceful and charming",
+                    "https://cdn2.thecatapi.com/images/MTUwNTg5MQ.jpg"
                 )
             )
         )
